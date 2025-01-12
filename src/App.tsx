@@ -1,28 +1,17 @@
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { Environment } from '@react-three/drei';
-import { useRef } from 'react';
-import { GLTFLoader } from 'three-stdlib';
-import { Object3D } from 'three';
+import { Canvas } from '@react-three/fiber';
+import { Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import GunModel from './editor/gunModel';
 
-const FollowModel = () => {
-  const gltf = useLoader(GLTFLoader, '/gun.glb'); // Load the model
-  const modelRef = useRef<Object3D|null>(null);
+const App = () => {
+ 
 
-  // Update the model's position to follow the camera
-  
-
-  return (
-    <>
-      <primitive ref={modelRef} object={gltf.scene} />
-    </>
-  );
-};
-
-const App = () => (
+return  (
   <Canvas style={{ height: '100vh' }}>
     <Environment background files={'/env.hdr'}/>
-    <FollowModel />
-  </Canvas>
-);
+    <GunModel />
+    <PerspectiveCamera fov={75} makeDefault position={[20, -10, 0]} /> {/* Moves the camera back */}
+    <OrbitControls/>
+    </Canvas>
+);}
 
 export default App;

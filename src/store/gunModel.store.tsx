@@ -1,15 +1,26 @@
-import { Euler, Vector3 } from 'three'
-import { create } from 'zustand'
+import { Euler, Vector3 } from 'three';
+import { create } from 'zustand';
 
 type Store = {
-    gunPosition:Vector3
-    gunRotation:Euler
-    scale:unknown
-}
+  gunPosition: Vector3;
+  gunRotation: Euler;
+  scale: unknown;
+  setGunPosition: (position: Vector3) => void;
+  setGunRotation: (rotation: Euler) => void;
+  setScale: (scale: unknown) => void;
+};
 
-export const useStore = create<Store>()((set) => ({
-  gunPosition:new Vector3(0, 0, 0),
-  gunRotation:new Euler(0, Math.PI, 0),
-  scale:''
-}))
-
+export const useGunStore = create<Store>()((set) => ({
+  gunPosition : new Vector3(0, 0, 0), // Move the model backward
+  gunRotation: new Euler(0, Math.PI/1, 0),
+  scale: '',
+  setGunPosition: (position: Vector3) => {
+    set(() => ({ gunPosition: position }));
+  },
+  setGunRotation: (rotation: Euler) => {
+    set(() => ({ gunRotation: rotation }));
+  },
+  setScale: (scale: unknown) => {
+    set(() => ({ scale }));
+  },
+}));
