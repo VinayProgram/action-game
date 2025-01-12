@@ -10,14 +10,14 @@ const Editor = () => {
       {/* Gun Model */}
       <GunModel />
       
-      {/* Static Mesh */}
-      <mesh position={[0, 0, 0]}>
+      {/* Static Mesh */}.
+      <mesh position={[0, 0, 0]} onClick={()=>alert('ehy')}>
         <boxGeometry />
         <meshStandardMaterial color={"orange"} />
       </mesh>
 
       {/* Perspective Camera with a set position */}
-      <PerspectiveCamera makeDefault position={[0, 10, 5]} /> {/* Set camera position */}
+      <PerspectiveCamera makeDefault position={[0, 0, 4]} /> {/* Set camera position */}
       
       {/* OrbitControls will control this camera */}
     </Canvas>
