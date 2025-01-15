@@ -1,10 +1,7 @@
 import { Canvas } from '@react-three/fiber';
-import { Environment, PerspectiveCamera } from '@react-three/drei';
+import { Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import GunModel from './gunModel';
-import { useGunStore } from '../store/gunModel.store';
-
 const Editor = () => {
-  const{landmarks}=useGunStore()
   return (
     <Canvas style={{ height: '100vh' }}>
       <Environment background files={'/env.hdr'} />
@@ -13,15 +10,16 @@ const Editor = () => {
       <GunModel />
       
       {/* Static Mesh */}.
-      <mesh position={[landmarks[0][0].x,landmarks[0][0].y,landmarks[0][0].z]} onClick={()=>alert('ehy')}>
+      <mesh position={[10,0,0]} onClick={()=>alert('ehy')}>
         <boxGeometry />
         <meshStandardMaterial color={"orange"} />
       </mesh>
 
       {/* Perspective Camera with a set position */}
-      <PerspectiveCamera makeDefault position={[0, 0, 4]} /> {/* Set camera position */}
+      {/* <PerspectiveCamera makeDefault  /> Set camera position */}
       
       {/* OrbitControls will control this camera */}
+      <OrbitControls/>
     </Canvas>
   );
 };

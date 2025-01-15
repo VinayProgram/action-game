@@ -1,10 +1,12 @@
-import { NormalizedLandmark } from '@mediapipe/tasks-vision';
+import { Category, NormalizedLandmark } from '@mediapipe/tasks-vision';
 import { Euler, Vector3 } from 'three';
 import { create } from 'zustand';
 
 type Store = {
   gunPosition: Vector3;
   gunRotation: Euler;
+  gestures:Category[][],
+  setGestures:(next:Category[][])=>void
   scale: unknown;
   landmarks:NormalizedLandmark[][]
   setLandmarks:(landmarks:NormalizedLandmark[][])=>void
@@ -19,6 +21,8 @@ export const useGunStore = create<Store>()((set) => ({
   scale: '',
   landmarks:[],
   setLandmarks:(landmarksDerived)=>set(()=>({landmarks:landmarksDerived})),
+  gestures:[],
+  setGestures:(next)=>set(()=>({gestures:next})),
   setGunPosition: (position: Vector3) => {
     set(() => ({ gunPosition: position }));
   },

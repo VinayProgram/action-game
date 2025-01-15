@@ -14,7 +14,7 @@ const LoadGunModel = ({ position, rotation, model }: { position: Vector3; rotati
 
 const GunModel = () => {
   const modelRef = useRef<Group | null>(null);
-  const { gunPosition, gunRotation } = useGunStore();
+  const { gunPosition, gunRotation,gestures } = useGunStore();
   const model = useLoader(GLTFLoader, '/gun.glb');
   const mixer = useRef<AnimationMixer | null>(null);
 
@@ -23,10 +23,10 @@ const GunModel = () => {
       mixer.current = new AnimationMixer(model.scene); // Use model.scene for animations
       model.animations.forEach((clip) => {
         const action = mixer.current?.clipAction(clip);
-        action?.play(); // Start the animation
+        if(gestures[0]?.[0]?.categoryName=="Closed_Fist"&&clip.name=='Rig|siligun_fire')action?.play(); // Start the animation
       });
     }
-  }, [model]);
+  }, [model,gestures]);
 
   useFrame((st, delta) => {
     // Update the mixer to progress animations
