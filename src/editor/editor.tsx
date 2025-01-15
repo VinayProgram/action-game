@@ -1,6 +1,7 @@
 import { Canvas } from '@react-three/fiber';
 import { Environment, OrbitControls } from '@react-three/drei';
 import GunModel from './gunModel';
+import EnemyModel from './enemyModel';
 const Editor = () => {
   return (
     <Canvas style={{ height: '100vh' }}>
@@ -9,7 +10,7 @@ const Editor = () => {
       <ambientLight args={[10,10]}></ambientLight>
       {/* Gun Model */}
       <GunModel />
-      
+      <EnemyModel/>
       {/* Static Mesh */}.
       <mesh position={[10,0,0]} onClick={()=>alert('ehy')}>
         <boxGeometry />
