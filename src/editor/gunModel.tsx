@@ -15,7 +15,7 @@ const LoadGunModel = ({ position, rotation, model }: { position: Vector3; rotati
 const GunModel = () => {
   const modelRef = useRef<Group | null>(null);
   const raycaster = useRef(new Raycaster());
-  const { gunPosition, gunRotation, gestures } = useGunStore();
+  const { gunPosition, gunRotation, gestures,setEnemyAnimation } = useGunStore();
   const model = useLoader(GLTFLoader, '/gun.glb');
   const mixer = useRef<AnimationMixer | null>(null);
 
@@ -57,8 +57,12 @@ const GunModel = () => {
         const intersects = raycaster.current.intersectObjects(st.scene.children, true);
         intersects.forEach((intersect) => {
           const object = intersect.object;
+          console.log(object)
           if (object instanceof Mesh && object.material) {// Save original color
-            object.material.color.set('black'); // Change color to red
+            console.log(object)
+            setEnemyAnimation(true)
+            object.material.color.set('black');
+             // Change color to red
           }
         });
 

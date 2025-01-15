@@ -1,35 +1,45 @@
-import { useLoader } from '@react-three/fiber';
-import { GLTF, GLTFLoader } from 'three-stdlib';
 import { useRef, useEffect } from 'react';
-import { Group } from 'three';
+import { useGunStore } from '../store/gunModel.store';
+import { GLTFLoader } from 'three-stdlib';
+import { useLoader } from '@react-three/fiber';
+import { Group, AnimationMixer } from 'three';
 
-type EnemyModelProps = {
-  position?: [number, number, number];
-  rotation?: [number, number, number];
-  scale?: [number, number, number];
-};
-
-const EnemyModel = ({ position = [0, Math.PI/-5  , 0], rotation = [0, 0, 0], scale = [1, 1, 1] }: EnemyModelProps) => {
-  const model = useLoader(GLTFLoader, '/diance.glb') as GLTF;
+const EnemyModel = () => {
   const modelRef = useRef<Group | null>(null);
+  const mixerRef = useRef<AnimationMixer | null>(null); // Reference for the AnimationMixer
+  const { setEnemyModel,enemyAnimation } = useGunStore();
+  const model = useLoader(GLTFLoader, '/enemy.glb'); // Load the enemy model
 
-  // Example of accessing and manipulating the model after loading
+  // Store the model reference in the state and set up animation
   useEffect(() => {
-    if (model.scene) {
-      // Add custom adjustments or access specific nodes here
-      console.log('Enemy Model Loaded:', model.scene);
+    if (modelRef.current) {
+      setEnemyModel(modelRef); // Save the model reference in store
 
-      // Example: Adjust position or rotation of specific nodes
-      const specificNode = model.scene.getObjectByName('EnemyNodeName'); // Replace with the actual node name
-      if (specificNode) {
-        specificNode.rotation.set(0, Math.PI / 4, 0); // Rotate the specific node
+      // Set up the animation mixer and start animations
+      if (model.animations.length > 0) {
+        mixerRef.current = new AnimationMixer(model.scene); // Create a mixer for animations
+        model.animations.forEach((clip) => {
+          const action = mixerRef.current?.clipAction(clip);
+          if(enemyAnimation)action?.play(); // Play each animation clip
+        });
       }
     }
-  }, [model]);
+  }, [model, setEnemyModel,enemyAnimation]);
+
+  // Update the animation mixer on each frame
+  useEffect(() => {
+    const mixer = mixerRef.current;
+    if (mixer) {
+      const animate = () => {
+        mixer.update(0.01); // Update animation for the model
+        requestAnimationFrame(animate); // Continue the animation loop
+      };
+      animate();
+    }
+  }, [enemyAnimation]);
 
   return (
-    <group ref={modelRef} position={position} rotation={rotation} scale={scale}>
-      {/* Use the model.scene as the primitive object */}
+    <group ref={modelRef}>
       <primitive object={model.scene} />
     </group>
   );
