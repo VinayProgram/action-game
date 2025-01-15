@@ -1,11 +1,12 @@
 import { Canvas } from '@react-three/fiber';
-import { Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import { Environment, OrbitControls } from '@react-three/drei';
 import GunModel from './gunModel';
 const Editor = () => {
   return (
     <Canvas style={{ height: '100vh' }}>
       <Environment background files={'/env.hdr'} />
       
+      <ambientLight args={[10,10]}></ambientLight>
       {/* Gun Model */}
       <GunModel />
       

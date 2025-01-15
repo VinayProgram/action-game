@@ -1,6 +1,6 @@
 "use client";
 import { GestureRecognizer, NormalizedLandmark } from '@mediapipe/tasks-vision';
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import '@tensorflow/tfjs-backend-cpu';
 import '@tensorflow/tfjs-backend-webgl';import GestureRecognizerComponent from './gesture-recognoze';
 import VideoCameraComponent from './videoCamera';
